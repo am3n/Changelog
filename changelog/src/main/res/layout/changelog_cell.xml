@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ir.am3n.needtool.views.A3LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="6dp"
+    app:a3_direction="locale"
+    tools:ignore="HardcodedText">
+
+    <ir.am3n.needtool.views.A3ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="top"
+        android:layout_marginRight="4dp"
+        app:a3_direction="locale"
+        app:srcCompat="@drawable/ic_circle_medium_24"
+        app:tint="?attr/colorAccent" />
+
+    <TextView
+        android:id="@+id/textDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="32dp"
+        android:text="Fix bug" />
+
+</ir.am3n.needtool.views.A3LinearLayout>
