@@ -42,7 +42,6 @@ Upcoming
 -------
 * Add layout directions option to support rtl languages
 * Add custom typeface option
-* Add ignoreAlphaBeta option
 * Add background drawable or color option
 * Add presentIn option to show as dialog or bottom sheet or ...
 * Add custom animations option

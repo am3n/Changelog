@@ -53,6 +53,7 @@ class Changelog : DialogFragment() {
             activity: AppCompatActivity,
             presentMode: PresentMode = PresentMode.DEBUG,
             presentFrom: Int = ALL_VERSIONS,
+            ignoreAlphaBeta: Boolean = true,
             title: String? = null,
             buttonText: String? = null,
             changelogId: Int? = null,
@@ -92,8 +93,14 @@ class Changelog : DialogFragment() {
                     var nowNumOfVersionNamePart3 = 0
 
                     try {
+
                         val nowVersionName: String = activity.getAppVersion().first
                         val nowVersionCode: Long = activity.getAppVersion().second
+
+                        if (ignoreAlphaBeta && nowVersionName.contains("(alpha|beta)".toRegex())) {
+                            onDismissOrIgnoredListener?.invoke()
+                            return
+                        }
 
                         // Obtain the first two numbers of current version name.
                         nowVersionName.split("\\.".toRegex())
