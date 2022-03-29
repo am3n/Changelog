@@ -8,6 +8,10 @@ It helps developers display the history of changes in their applications.
 
 You can find a sample code of Changelog in this repository.
 
+Screenshots
+-------
+![ACTIVITY](art/changelog_dialog_ltr_eng.png)
+
 
 Installation
 -------
@@ -25,6 +29,26 @@ dependencies {
 
 Usage
 -------
+
+###
+Add log history as xml sources to `/res/xml`
+```xml
+<changelog>
+
+    <release version="1.2.0" versioncode="61" summary="Example summary" date="2021-3-2">
+        <change>Redesigned something</change>
+        <change>Improved performance</change>
+        <change>Fixed reported bugs</change>
+    </release>
+
+    <release version="1.1.0" versioncode="44" date="2020-12-26">
+        <change>Added features</change>
+        <change>Fixed reported bugs</change>
+    </release>
+
+</changelog>
+```
+
 ###
 The `present` function is used to show change log list.
 ```kotlin
@@ -42,11 +66,7 @@ Changelog.present(
     }
 )
 ```
-###
-The `clear` is used to reset this library history.
-```kotlin
-Changelog.clear(applicationContext)
-```
+
 ###
 If use `layoutDirection` should add this your project 
 & handle Rtl supporting in your app by yourself.
@@ -58,10 +78,17 @@ If use `layoutDirection` should add this your project
 Of course, to support layout direction by yourself 
 you can use A3 views in my library: https://github.com/am3n/NeedTool
 
+###
+The `clear` is used to reset this library history.
+```kotlin
+Changelog.clear(applicationContext)
+```
+
 
 ###
 Upcoming
 -------
+* Add support locale languages
 * Add custom typeface option
 * Add background drawable or color option
 * Add presentIn option to show as dialog or bottom sheet or ...
