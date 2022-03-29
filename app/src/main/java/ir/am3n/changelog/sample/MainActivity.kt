@@ -13,27 +13,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnReset.setOnClickListener {
-            try {
-                Changelog.clear(applicationContext)
-                recreate()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-            }
+        btnRestart.setOnClickListener {
+            recreate()
         }
 
         Changelog.present(
             activity = this,
             presentMode = PresentMode.IF_NEEDED,
             presentFrom = Changelog.NEW_VERSIONS,
+            ignoreAlphaBeta = false,
             title = getString(R.string.whats_new),
             buttonText = "Ok!",
             changelogId = R.xml.changelog,
+            //layoutDirection = LayoutDirection.RTL,
             onDismissOrIgnoredListener = {
                 Toast.makeText(this, "onDismissOrIgnored", Toast.LENGTH_SHORT).show()
             }
         )
+
+        Changelog.clear(applicationContext)
 
     }
 

@@ -25,22 +25,43 @@ dependencies {
 
 Usage
 -------
+###
+The `present` function is used to show change log list.
 ```kotlin
 Changelog.present(
     activity = this,
     presentMode = PresentMode.IF_NEEDED,
     presentFrom = Changelog.NEW_VERSIONS,
-    title = string(R.string.whatsnew),
-    buttonText = "Ok",
+    ignoreAlphaBeta = false,
+    title = getString(R.string.whats_new),
+    buttonText = "Ok!",
     changelogId = R.xml.changelog,
-    onDismissOrIgnoredListener = {}
+    layoutDirection = LayoutDirection.RTL,
+    onDismissOrIgnoredListener = {
+        Toast.makeText(this, "onDismissOrIgnored", Toast.LENGTH_SHORT).show()
+    }
 )
 ```
+###
+The `clear` is used to reset this library history.
+```kotlin
+Changelog.clear(applicationContext)
+```
+###
+If use `layoutDirection` should add this your project 
+& handle Rtl supporting in your app by yourself.
+```xml
+<application
+    android:supportsRtl="false">
+</application>
+```
+Of course, to support layout direction by yourself 
+you can use A3 views in my library: https://github.com/am3n/NeedTool
 
 
+###
 Upcoming
 -------
-* Add layout directions option to support rtl languages
 * Add custom typeface option
 * Add background drawable or color option
 * Add presentIn option to show as dialog or bottom sheet or ...
