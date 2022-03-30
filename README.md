@@ -88,7 +88,6 @@ Changelog.clear(applicationContext)
 ###
 Upcoming
 -------
-* Add support locale languages
 * Add custom typeface option
 * Add background drawable or color option
 * Add presentIn option to show as dialog or bottom sheet or ...
