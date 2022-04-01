@@ -53,7 +53,7 @@ object Utils {
                         ))
                         if (releaseVersion <= lastVersionCode && version == -1)
                             break
-                        changelogItems.addAll(parseReleaseTag(context, xml))
+                        changelogItems.addAll(parseReleaseTag(xml))
                         if (releaseVersion <= version && version >= 0)
                             break
                     } else {
@@ -69,18 +69,17 @@ object Utils {
 
     /**
      * Parse one release tag attribute.
-     * @param context the calling activity
      * @param xml the xml resource parser. Its cursor should be at a release tag.
      * @return a list containing one [ChangelogHeader] and zero or more [ChangelogItem]
      */
-    private fun parseReleaseTag(context: Context, xml: XmlResourceParser): MutableList<ChangelogItem> {
+    private fun parseReleaseTag(xml: XmlResourceParser): MutableList<ChangelogItem> {
         require(xml.name == XmlTags.RELEASE && xml.eventType == XmlPullParser.START_TAG)
         val items = mutableListOf<ChangelogItem>()
         // parse header
         items.add(
             ChangelogHeader(
                 version = xml.getAttributeValue(null, XmlTags.VERSION_NAME) ?: "X.X",
-                date = xml.getAttributeValue(null, XmlTags.DATE)?.let { parseDate(context, it) },
+                date = xml.getAttributeValue(null, XmlTags.DATE),
                 summary = xml.getAttributeValue(null, XmlTags.SUMMARY)
             )
         )
@@ -94,22 +93,5 @@ object Utils {
         }
         return items
     }
-
-    /**
-     * Format a date string.
-     * @param context The calling activity
-     * @param dateString The date string, in ISO format (YYYY-MM-dd)
-     * @return The date formatted using the system locale, or [dateString] if the parsing failed.
-     */
-    private fun parseDate(context: Context, dateString: String): String {
-        return try {
-            val parsedDate = Date.valueOf(dateString)
-            DateFormat.getDateFormat(context).format(parsedDate)
-        } catch (_: ParseException) {
-            // wrong date format... Just keep the string as is
-            dateString
-        }
-    }
-
 
 }
