@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+
+    <release version="۱.۳.۰" versioncode="70" date="1401-1-20">
+        <change>بازطراحی صفحات</change>
+        <change>بهبود عملکرد</change>
+        <change>امکان جدید</change>
+        <change>رفع مشکلات گزارش شده</change>
+    </release>
+
+    <release version="۱.۲.۰" versioncode="61" summary="نمونه خلاصه" date="1400-11-2">
+        <change>بازطراحی صفحات</change>
+        <change>بهبود عملکرد</change>
+        <change>رفع مشکلات گزارش شده</change>
+    </release>
+
+    <release version="۱.۱.۰" versioncode="44" date="1400-9-26">
+        <change>امکان جدید</change>
+        <change>رفع مشکلات گزارش شده</change>
+    </release>
+
+</changelog>

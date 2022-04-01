@@ -5,9 +5,9 @@
     android:id="@+id/cell"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingTop="6dp"
-    android:gravity="center_vertical"
     tools:ignore="HardcodedText">
 
     <ir.am3n.needtool.views.A3ImageView
@@ -23,6 +23,7 @@
         android:id="@+id/textDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:includeFontPadding="false"
         android:paddingEnd="32dp"
         android:text="Fix bug" />
 

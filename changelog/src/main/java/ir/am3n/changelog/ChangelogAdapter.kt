@@ -1,5 +1,6 @@
 package ir.am3n.changelog
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
  * it will create two types of holders, depending on the data type. */
 class ChangelogAdapter(
     private val list: List<ChangelogItem>,
+    private val defaultFont: Typeface?,
     private val layoutDirection: Int?
 ) : RecyclerView.Adapter<ChangelogHolder>() {
 
@@ -34,20 +36,28 @@ class ChangelogAdapter(
 
         if (holder is ChangelogHeaderHolder) {
             val header = item as ChangelogHeader
-            if (layoutDirection != null) {
-                holder.cnsl.direction = layoutDirection
-                holder.txtSummary.direction = layoutDirection
-            }
+
+            layoutDirection?.let { holder.cnsl.direction = it }
+
             holder.txtVersion.text = header.version
-            holder.txtSummary.text = header.summary
+            holder.txtVersion.typeface = defaultFont
+
             holder.txtSummary.visibility = if (header.summary != null) View.VISIBLE else View.GONE
+            layoutDirection?.let { holder.txtSummary.direction = it }
+            holder.txtSummary.text = header.summary
+            holder.txtSummary.typeface = defaultFont
+
             holder.txtDate.text = header.date
+            holder.txtDate.typeface = defaultFont
+
         } else {
-            if (layoutDirection != null) {
-                holder.linr.direction = layoutDirection
-                holder.imgDesc.direction = layoutDirection
-            }
+
+            layoutDirection?.let { holder.linr.direction = it }
+
+            layoutDirection?.let { holder.imgDesc.direction = it }
+
             holder.txtDesc.text = item.description
+            holder.txtDesc.typeface = defaultFont
         }
 
     }

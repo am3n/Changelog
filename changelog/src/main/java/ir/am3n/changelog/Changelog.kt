@@ -3,6 +3,7 @@ package ir.am3n.changelog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,8 +50,9 @@ class Changelog : DialogFragment() {
             presentMode: PresentMode = PresentMode.DEBUG,
             presentFrom: Int = ALL_VERSIONS,
             ignoreAlphaBeta: Boolean = true,
-            title: String? = null,
-            buttonText: String? = null,
+            title: Holder? = null,
+            button: Holder? = null,
+            defaultFont: Typeface? = null,
             changelogId: Int,
             layoutDirection: Int? = null,
             onDismissOrIgnoredListener: (() -> Unit)? = {}
@@ -63,7 +65,8 @@ class Changelog : DialogFragment() {
                 this.presentMode = presentMode
                 this.presentFrom = presentFrom
                 this.title = title
-                this.buttonText = buttonText
+                this.button = button
+                this.defaultFont = defaultFont
                 this.changelogId = changelogId
                 this.layoutDirection = layoutDirection
                 this.onDismissOrIgnoredListener = onDismissOrIgnoredListener
@@ -187,8 +190,9 @@ class Changelog : DialogFragment() {
     private var lastVersionCode = 0L
     private var presentMode: PresentMode = PresentMode.DEBUG
     private var presentFrom: Int = ALL_VERSIONS
-    private var title: String? = null
-    private var buttonText: String? = null
+    private var title: Holder? = null
+    private var button: Holder? = null
+    private var defaultFont: Typeface? = null
     private var changelogId: Int? = null
     private var layoutDirection: Int? = null
     private var onDismissOrIgnoredListener: (() -> Unit)? = {}
@@ -215,19 +219,30 @@ class Changelog : DialogFragment() {
         if (layoutDirection != null)
             changelog.direction = layoutDirection
 
-
-        txtTitle.text = title.toString()
+        if (title != null) {
+            txtTitle.isVisible = true
+            defaultFont?.let { txtTitle.typeface = it }
+            title?.text?.let {txtTitle.text = it }
+            title?.font?.let {txtTitle.typeface = it }
+            title?.color?.let {txtTitle.setTextColor(it) }
+        } else {
+            txtTitle.isVisible = false
+        }
 
 
         rcl.adapter = ChangelogAdapter(
             loadChangelog(context, changelogId, lastVersionCode, presentFrom),
+            defaultFont,
             layoutDirection
         )
 
 
-        if (buttonText != null) {
+        if (button != null) {
             btnContinue.isVisible = true
-            btnContinue.text = buttonText
+            defaultFont?.let { btnContinue.typeface = it }
+            button?.text?.let { btnContinue.text = it }
+            button?.font?.let { btnContinue.typeface = it }
+            button?.color?.let { btnContinue.setTextColor(it) }
             btnContinue.setOnClickListener {
                 try {
                     dismissAllowingStateLoss()

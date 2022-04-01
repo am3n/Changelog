@@ -10,7 +10,9 @@ You can find a sample code of Changelog in this repository.
 
 Screenshots
 -------
-![ACTIVITY](art/changelog_dialog_ltr_eng.png)
+|Ltr-English|Rtlized-Farsi|
+|-----------|-------------|
+|![ACTIVITY](art/changelog_dialog_ltr_eng.png)|![ACTIVITY](art/changelog_dialog_rtl_fa.png)|
 
 
 Installation
@@ -57,10 +59,17 @@ Changelog.present(
     presentMode = PresentMode.IF_NEEDED,
     presentFrom = Changelog.NEW_VERSIONS,
     ignoreAlphaBeta = false,
-    title = getString(R.string.whats_new),
-    buttonText = "Ok!",
+    title = Holder(
+        text = getString(R.string.whats_new),
+        font = ResourcesCompat.getFont(applicationContext, R.font.font_thin)
+    ),
+    button = Holder(
+        text = getString(R.string._continue),
+        color = ContextCompat.getColor(applicationContext, R.color.teal_700)
+    ),
+    defaultFont = ResourcesCompat.getFont(applicationContext, R.font.font_regular),
     changelogId = R.xml.changelog,
-    layoutDirection = LayoutDirection.RTL,
+    //layoutDirection = LayoutDirection.LOCALE, /* instead of `layoutDirection` use `android:supportsRtl="true"` */
     onDismissOrIgnoredListener = {
         Toast.makeText(this, "onDismissOrIgnored", Toast.LENGTH_SHORT).show()
     }
@@ -88,11 +97,9 @@ Changelog.clear(applicationContext)
 ###
 Upcoming
 -------
-* Add custom typeface option
 * Add background drawable or color option
 * Add presentIn option to show as dialog or bottom sheet or ...
 * Add custom animations option
-* Add button text color option
 * Add cell image custom resource option
 * Add cell image custom tint option
 * Add dark mode option
