@@ -258,11 +258,10 @@ class Changelog : DialogFragment() {
         }
 
 
-        rcl.adapter = ChangelogAdapter(
-            loadChangelog(context, changelogId, lastVersionCode, presentFrom),
-            defaultFont,
-            layoutDirection
-        )
+        val logs = loadChangelog(context, changelogId, lastVersionCode, presentFrom)
+        if (logs.isNullOrEmpty())
+            return dismissAllowingStateLoss()
+        rcl.adapter = ChangelogAdapter(logs, defaultFont, layoutDirection)
 
 
         if (button != null) {
