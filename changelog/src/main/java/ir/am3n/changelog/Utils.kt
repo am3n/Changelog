@@ -41,7 +41,7 @@ object Utils {
         context: Context?,
         resourceId: Int?,
         lastVersionCode: Long,
-        version: Int = Changelog.ALL_VERSIONS
+        version: Int
     ): MutableList<ChangelogItem> {
         val changelogItems = mutableListOf<ChangelogItem>()
         try {

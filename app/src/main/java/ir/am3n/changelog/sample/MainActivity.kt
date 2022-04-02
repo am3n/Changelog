@@ -1,7 +1,6 @@
 package ir.am3n.changelog.sample
 
 import android.os.Bundle
-import android.util.LayoutDirection
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -26,6 +25,7 @@ class MainActivity : AppCompatActivity() {
             presentMode = PresentMode.IF_NEEDED,
             presentFrom = Changelog.NEW_VERSIONS,
             ignoreAlphaBeta = false,
+            background = Changelog.DEFAULT_BACKGROUND, /* or custom Drawable */
             title = Holder(
                 text = getString(R.string.whats_new),
                 font = ResourcesCompat.getFont(applicationContext, R.font.font_thin)
@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
             ),
             defaultFont = ResourcesCompat.getFont(applicationContext, R.font.font_regular),
             changelogId = R.xml.changelog,
-            //layoutDirection = LayoutDirection.LOCALE, /* instead of `layoutDirection` use `android:supportsRtl="true"` */
+            /* to use rtl supporting provided by Android, Use `android:supportsRtl="true"` instead of `layoutDirection` */
+            //layoutDirection = LayoutDirection
             onDismissOrIgnoredListener = {
                 Toast.makeText(this, "onDismissOrIgnored", Toast.LENGTH_SHORT).show()
             }

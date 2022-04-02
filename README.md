@@ -3,16 +3,18 @@
 ![MinAPI](https://img.shields.io/badge/API-21%2B-blue)
 [![](https://jitpack.io/v/am3n/Changelog.svg)](https://jitpack.io/#am3n/Changelog)
 
-Changelog is a library for Android API 21+. 
-It helps developers display the history of changes in their applications.
+Changelog is a android library, it helps developers display the history of changes in their applications.
+
+Supports Locales, Layout directions, Dark-Mode & it's very customizable!
 
 You can find a sample code of Changelog in this repository.
 
+
 Screenshots
 -------
-|Ltr-English|Rtlized-Farsi|
-|-----------|-------------|
-|![ACTIVITY](art/changelog_dialog_ltr_eng.png)|![ACTIVITY](art/changelog_dialog_rtl_fa.png)|
+|Ltr-English|Rtlized-Farsi|Default-BG & Dark-Mode|
+|-----------|-------------|--------------------|
+|![ACTIVITY](art/changelog_dialog_ltr_eng.png)|![ACTIVITY](art/changelog_dialog_rtl_fa.png)|![ACTIVITY](art/changelog_dialog_rtl_fa_bg_dk.png)|
 
 
 Installation
@@ -36,20 +38,32 @@ Usage
 Add log history as xml sources to `/res/xml`
 ```xml
 <changelog>
-
     <release version="1.2.0" versioncode="61" summary="Example summary" date="2021-3-2">
         <change>Redesigned something</change>
         <change>Improved performance</change>
         <change>Fixed reported bugs</change>
     </release>
-
     <release version="1.1.0" versioncode="44" date="2020-12-26">
         <change>Added features</change>
         <change>Fixed reported bugs</change>
     </release>
-
 </changelog>
 ```
+You can add change logs in other locales (e.g. `/res/xml-fa-rIR`)
+```xml
+<changelog>
+    <release version="۱.۲.۰" versioncode="61" summary="نمونه خلاصه" date="1400/11/2">
+        <change>بازطراحی صفحات</change>
+        <change>بهبود عملکرد</change>
+        <change>رفع مشکلات گزارش شده</change>
+    </release>
+    <release version="۱.۱.۰" versioncode="44" date="1400/9/26">
+        <change>امکان جدید</change>
+        <change>رفع مشکلات گزارش شده</change>
+    </release>
+</changelog>
+```
+
 
 ###
 The `present` function is used to show change log list.
@@ -59,6 +73,7 @@ Changelog.present(
     presentMode = PresentMode.IF_NEEDED,
     presentFrom = Changelog.NEW_VERSIONS,
     ignoreAlphaBeta = false,
+    background = Changelog.DEFAULT_BACKGROUND, /* or custom Drawable */
     title = Holder(
         text = getString(R.string.whats_new),
         font = ResourcesCompat.getFont(applicationContext, R.font.font_thin)
@@ -69,7 +84,8 @@ Changelog.present(
     ),
     defaultFont = ResourcesCompat.getFont(applicationContext, R.font.font_regular),
     changelogId = R.xml.changelog,
-    //layoutDirection = LayoutDirection.LOCALE, /* instead of `layoutDirection` use `android:supportsRtl="true"` */
+    /* to use rtl supporting provided by Android, Use `android:supportsRtl="true"` instead of `layoutDirection` */
+    //layoutDirection = LayoutDirection
     onDismissOrIgnoredListener = {
         Toast.makeText(this, "onDismissOrIgnored", Toast.LENGTH_SHORT).show()
     }
@@ -97,12 +113,10 @@ Changelog.clear(applicationContext)
 ###
 Upcoming
 -------
-* Add background drawable or color option
 * Add presentIn option to show as dialog or bottom sheet or ...
 * Add custom animations option
 * Add cell image custom resource option
 * Add cell image custom tint option
-* Add dark mode option
 * Add some features from 'Credits' libraries
 
 

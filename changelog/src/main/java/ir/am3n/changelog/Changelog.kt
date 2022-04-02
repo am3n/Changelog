@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -25,31 +27,42 @@ class Changelog : DialogFragment() {
 
     companion object {
 
-        const val TAG = "Changelog"
-
         private const val LAST_VERSION_CODE = "LAST_VERSION_CODE"
         private const val LAST_VERSION_NAME = "LAST_VERSION_NAME"
         private fun sh(context: Context?): SharedPreferences? {
             return context?.getSharedPreferences("Changelog", Context.MODE_PRIVATE)
         }
 
+        const val TAG = "Changelog"
+
         /** Use this value if you want all the changelog (i.e. all the release entries) to appear. */
         const val ALL_VERSIONS = 0
         const val NEW_VERSIONS = -1
 
+        /** Rounded drawable background, if you want to use this, you should override `?attr/colorOnPrimary` */
+        val DEFAULT_BACKGROUND = R.drawable.bg_changelog_dialog
+
         /**
          * Create a dialog displaying the changelog.
-         * @param activity The calling activity
+         * @param activity The calling activity.
+         * @param presentMode see [PresentMode]
          * @param presentFrom Define the oldest version to show. In other words, the dialog will contains
          * release entries with a `versionCode` attribute >= [presentFrom]. Default to all.
-         * @param title The title of the dialog. Default to "Changelog"
-         * @param changelogId The resourceId of the xml file, default to `R.xml.changelog`
+         * @param ignoreAlphaBeta Ignore displaying changelogs if `versionName` contains 'alpha' or 'beta'.
+         * @param background The background of the dialog. You can use in-library drawable [DEFAULT_BACKGROUND]
+         * @param title The title holder of the dialog. Default to null means title visibility is gone.
+         * @param button The button holder of the dialog. Default to null means button visibility is gone.
+         * @param defaultFont The typeface that set to all texts.
+         * @param changelogId The resourceId of the xml file.
+         * @param layoutDirection Change direction to support rtl or by locale. Default to null.
+         * @param onDismissOrIgnoredListener Changelog `onDismiss` or `onIgnore` callback.
          */
         fun present(
             activity: AppCompatActivity,
             presentMode: PresentMode = PresentMode.DEBUG,
             presentFrom: Int = ALL_VERSIONS,
             ignoreAlphaBeta: Boolean = true,
+            @DrawableRes background: Int? = null,
             title: Holder? = null,
             button: Holder? = null,
             defaultFont: Typeface? = null,
@@ -64,6 +77,7 @@ class Changelog : DialogFragment() {
                 lastVersionCode = sh?.getLong(LAST_VERSION_CODE, 0) ?: 0
                 this.presentMode = presentMode
                 this.presentFrom = presentFrom
+                this.background = background
                 this.title = title
                 this.button = button
                 this.defaultFont = defaultFont
@@ -160,7 +174,10 @@ class Changelog : DialogFragment() {
                                 changelog.show(activity.supportFragmentManager, TAG)
                                 sh?.edit()
                                     ?.putLong(LAST_VERSION_CODE, nowVersionCode)
-                                    ?.putString(LAST_VERSION_NAME, "$nowNumOfVersionNamePart1.$nowNumOfVersionNamePart2.$nowNumOfVersionNamePart3")
+                                    ?.putString(
+                                        LAST_VERSION_NAME,
+                                        "$nowNumOfVersionNamePart1.$nowNumOfVersionNamePart2.$nowNumOfVersionNamePart3"
+                                    )
                                     ?.apply()
                                 return
                             }
@@ -190,6 +207,7 @@ class Changelog : DialogFragment() {
     private var lastVersionCode = 0L
     private var presentMode: PresentMode = PresentMode.DEBUG
     private var presentFrom: Int = ALL_VERSIONS
+    private var background: Int? = null
     private var title: Holder? = null
     private var button: Holder? = null
     private var defaultFont: Typeface? = null
@@ -207,8 +225,17 @@ class Changelog : DialogFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        if (background != null) {
+            dialog?.window?.setBackgroundDrawableResource(background!!)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+                dialog?.window?.setClipToOutline(true)
+        }
         return inflater.inflate(R.layout.changelog, container, false)
     }
 
@@ -219,12 +246,13 @@ class Changelog : DialogFragment() {
         if (layoutDirection != null)
             changelog.direction = layoutDirection
 
+
         if (title != null) {
             txtTitle.isVisible = true
             defaultFont?.let { txtTitle.typeface = it }
-            title?.text?.let {txtTitle.text = it }
-            title?.font?.let {txtTitle.typeface = it }
-            title?.color?.let {txtTitle.setTextColor(it) }
+            title?.text?.let { txtTitle.text = it }
+            title?.font?.let { txtTitle.typeface = it }
+            title?.color?.let { txtTitle.setTextColor(it) }
         } else {
             txtTitle.isVisible = false
         }
@@ -258,7 +286,8 @@ class Changelog : DialogFragment() {
         view.doOnPreDraw {
             try {
                 val ratio = 4f / 5f
-                val availHeight = (requireContext().screenHeight - txtTitle.measuredHeight - btnContinue.measuredHeight) * ratio
+                val availHeight =
+                    (requireContext().screenHeight - txtTitle.measuredHeight - btnContinue.measuredHeight) * ratio
                 rlvRcl?.setMaxHeightPx(availHeight.roundToInt())
             } catch (t: Throwable) {
                 t.printStackTrace()
