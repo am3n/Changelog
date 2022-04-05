@@ -1,5 +1,6 @@
 package ir.am3n.changelog
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
@@ -57,6 +58,7 @@ class Changelog : DialogFragment() {
          * @param layoutDirection Change direction to support rtl or by locale. Default to null.
          * @param onDismissOrIgnoredListener Changelog `onDismiss` or `onIgnore` callback.
          */
+        @SuppressLint("ApplySharedPref")
         fun present(
             activity: AppCompatActivity,
             presentMode: PresentMode = PresentMode.DEBUG,
@@ -74,7 +76,13 @@ class Changelog : DialogFragment() {
             val sh = sh(activity)
 
             val changelog = Changelog().apply {
-                lastVersionCode = sh?.getLong(LAST_VERSION_CODE, 0) ?: 0
+                lastVersionCode = try {
+                    sh?.getLong(LAST_VERSION_CODE, 0) ?: 0
+                } catch (t: Throwable) {
+                    (sh?.getInt(LAST_VERSION_CODE, 0) ?: 0).toLong().apply {
+                        sh?.edit()?.putLong(LAST_VERSION_CODE, this)?.commit()
+                    }
+                }
                 this.presentMode = presentMode
                 this.presentFrom = presentFrom
                 this.background = background
