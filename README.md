@@ -45,7 +45,6 @@ Usage
 Add log history as xml sources to `/res/xml`
 
 ```xml
-
 <changelog>
 
     <release version="1.3.0" versioncode="70" date="2021-11-20">
@@ -104,9 +103,8 @@ If use `layoutDirection` should add this your project & handle Rtl supporting in
 yourself.
 
 ```xml
-
-<application android:supportsRtl="false">
-  
+<application
+        android:supportsRtl="false">
 </application>
 ```
 
@@ -129,7 +127,6 @@ Customization
 - Can add change logs in other locales (e.g. `/res/xml-fa-rIR/`)
 
 ```xml
-
 <changelog>
 
     <release version="۱.۳.۰" versioncode="70" date="1401/1/20">
@@ -155,25 +152,24 @@ Customization
 
 ###
 
-- Can override the `new`, `change`, `info`, `fix` tag icons.
-    - new: `R.drawable.ic_changelog_item_new`
-    - change: `R.drawable.ic_changelog_item_change`
-    - info: `R.drawable.ic_changelog_item_info`
-    - fix: `R.drawable.ic_changelog_item_fix`
+- Can override the `new`, `change`, `info`, `fix` tag icons by creating your own custom icons with
+  the same name as the drawables below:
+    - new tag: `R.drawable.ic_changelog_item_new`
+    - change tag: `R.drawable.ic_changelog_item_change`
+    - info tag: `R.drawable.ic_changelog_item_info`
+    - fix tag: `R.drawable.ic_changelog_item_fix`
 
 ###
 
-- Can change default icon for all `custom` tags that has no `icon` parameter:
+- Can change default icon for all `custom` tags that has no `icon` attribute by
+  overriding the `R.drawable.ic_changelog_item_custom_default`
 
 ```xml
-
 <release>
     ...
     <custom>Added features</custom>
 </release>
 ```
-
-by overriding drawable: `R.drawable.ic_changelog_item_custom_default`
 
 ###
 
@@ -181,7 +177,6 @@ by overriding drawable: `R.drawable.ic_changelog_item_custom_default`
   (e.g. `/res/values/`, `/res/values-night/`)
 
 ```xml
-
 <resources>
     ...
     <color name="colorChangelogItemNew">?</color>
