@@ -3,7 +3,8 @@
 ![MinAPI](https://img.shields.io/badge/API-21%2B-blue)
 [![](https://jitpack.io/v/am3n/Changelog.svg)](https://jitpack.io/#am3n/Changelog)
 
-Changelog is a android library, it helps developers display the history of changes in their applications.
+Changelog is a android library, it helps developers display the history of changes in their
+applications.
 
 Supports Locales, Layout directions, Dark-Mode & it's very customizable!
 
@@ -12,61 +13,66 @@ You can find a sample code of Changelog in this repository.
 
 Screenshots
 -------
+
 |Ltr-English|Rtlized-Farsi|Default-BG & Dark-Mode|
 |-----------|-------------|--------------------|
 |![ACTIVITY](art/changelog_dialog_ltr_eng.png)|![ACTIVITY](art/changelog_dialog_rtl_fa.png)|![ACTIVITY](art/changelog_dialog_rtl_fa_bg_dk.png)|
 
+|Customization-Icons|
+|-------------------|
+|![ACTIVITY](art/changelog_dialog_customization_item_icon.png)|
 
 Installation
 -------
+
 ```groovy
 repositories {
     maven { url "https://jitpack.io" }
 }
 ```
+
 ```groovy
 dependencies {
     implementation "com.github.am3n:Changelog:NEWEST-VERSION"
 }
 ```
 
-
 Usage
 -------
 
 ###
+
 Add log history as xml sources to `/res/xml`
+
 ```xml
+
 <changelog>
+
+    <release version="1.3.0" versioncode="70" date="2021-11-20">
+        <text>Redesigned something</text>
+        <info>Improved performance</info>
+        <custom>Added features</custom>
+        <fix>Fixed reported bugs</fix>
+    </release>
+
     <release version="1.2.0" versioncode="61" summary="Example summary" date="2021-3-2">
         <change>Redesigned something</change>
-        <change>Improved performance</change>
-        <change>Fixed reported bugs</change>
+        <custom icon="R.drawable.ic_tools">Improved performance</custom>
+        <fix>Fixed reported bugs</fix>
     </release>
-    <release version="1.1.0" versioncode="44" date="2020-12-26">
-        <change>Added features</change>
-        <change>Fixed reported bugs</change>
-    </release>
-</changelog>
-```
-You can add change logs in other locales (e.g. `/res/xml-fa-rIR`)
-```xml
-<changelog>
-    <release version="۱.۲.۰" versioncode="61" summary="نمونه خلاصه" date="1400/11/2">
-        <change>بازطراحی صفحات</change>
-        <change>بهبود عملکرد</change>
-        <change>رفع مشکلات گزارش شده</change>
-    </release>
-    <release version="۱.۱.۰" versioncode="44" date="1400/9/26">
-        <change>امکان جدید</change>
-        <change>رفع مشکلات گزارش شده</change>
-    </release>
-</changelog>
-```
 
+    <release version="1.1.0" versioncode="44" date="2020-12-26">
+        <new>Added features</new>
+        <fix>Fixed reported bugs</fix>
+    </release>
+
+</changelog>
+```
 
 ###
+
 The `present` function is used to show change log list.
+
 ```kotlin
 Changelog.present(
     activity = this,
@@ -93,46 +99,121 @@ Changelog.present(
 ```
 
 ###
-If use `layoutDirection` should add this your project 
-& handle Rtl supporting in your app by yourself.
+
+If use `layoutDirection` should add this your project & handle Rtl supporting in your app by
+yourself.
+
 ```xml
-<application
-    android:supportsRtl="false">
+
+<application android:supportsRtl="false">
+  
 </application>
 ```
-Of course, to support layout direction by yourself 
-you can use A3 views in my library: https://github.com/am3n/NeedTool
+
+Of course, to support layout direction by yourself you can use A3 views in my
+library: https://github.com/am3n/NeedTool
 
 ###
+
 The `clear` is used to reset this library history.
+
 ```kotlin
 Changelog.clear(applicationContext)
 ```
 
+###
+
+Customization
+-------------
+
+- Can add change logs in other locales (e.g. `/res/xml-fa-rIR/`)
+
+```xml
+
+<changelog>
+
+    <release version="۱.۳.۰" versioncode="70" date="1401/1/20">
+        <text>بازطراحی صفحات</text>
+        <info>بهبود عملکرد</info>
+        <custom>امکان جدید</custom>
+        <fix>رفع مشکلات گزارش شده</fix>
+    </release>
+
+    <release version="۱.۲.۰" versioncode="61" summary="نمونه خلاصه" date="1400/11/2">
+        <change>بازطراحی صفحات</change>
+        <custom icon="R.drawable.ic_tools">بهبود عملکرد</custom>
+        <fix>رفع مشکلات گزارش شده</fix>
+    </release>
+
+    <release version="۱.۱.۰" versioncode="44" date="1400/9/26">
+        <new>امکان جدید</new>
+        <fix>رفع مشکلات گزارش شده</fix>
+    </release>
+
+</changelog>
+```
 
 ###
+
+- Can override the `new`, `change`, `info`, `fix` tag icons.
+    - new: `R.drawable.ic_changelog_item_new`
+    - change: `R.drawable.ic_changelog_item_change`
+    - info: `R.drawable.ic_changelog_item_info`
+    - fix: `R.drawable.ic_changelog_item_fix`
+
+###
+
+- Can change default icon for all `custom` tags that has no `icon` parameter:
+
+```xml
+
+<release>
+    ...
+    <custom>Added features</custom>
+</release>
+```
+
+by overriding drawable: `R.drawable.ic_changelog_item_custom_default`
+
+###
+
+- Can override the `new`, `change`, `info`, `fix` tag icon default colors.
+  (e.g. `/res/values/`, `/res/values-night/`)
+
+```xml
+
+<resources>
+    ...
+    <color name="colorChangelogItemNew">?</color>
+    <color name="colorChangelogItemChange">?</color>
+    <color name="colorChangelogItemInfo">?</color>
+    <color name="colorChangelogItemFix">?</color>
+    <color name="colorChangelogItemCustom">?</color>
+</resources>
+```
+
+###
+
 Upcoming
 -------
+
 * Add presentIn option to show as dialog or bottom sheet or ...
 * Add custom animations option
-* Add cell image custom resource option
-* Add cell image custom tint option
 * Add some features from 'Credits' libraries
-
 
 Contribution
 -------
-If you've found an error in the library or sample, please file an issue.
-Patches are encouraged, and may be submitted by forking this project and submitting a pull request.
+If you've found an error in the library or sample, please file an issue. Patches are encouraged, and
+may be submitted by forking this project and submitting a pull request.
 
 
 Credits
 -------
+
 * https://github.com/MFlisar/changelog
 * https://github.com/furkanakdemir/noticeboard
 * https://github.com/anderscheow/WhatsNew
 * https://github.com/cketti/ckChangeLog
-
 
 License
 -------

@@ -6,5 +6,6 @@
     <color name="colorChangelogItemChange">#761CC5</color>
     <color name="colorChangelogItemInfo">#1B77BD</color>
     <color name="colorChangelogItemFix">#BC2929</color>
+    <color name="colorChangelogItemCustom">#18ACAC</color>
 
 </resources>

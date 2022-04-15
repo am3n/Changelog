@@ -48,7 +48,7 @@ object Utils {
                         val releaseVersion = Integer.parseInt(xml.getAttributeValue(null, XmlTags.VERSION_CODE))
                         if (releaseVersion <= lastVersionCode && version == -1)
                             break
-                        changelogItems.addAll(parseReleaseTag(xml))
+                        changelogItems.addAll(parseReleaseTag(context, xml))
                         if (releaseVersion <= version && version >= 0)
                             break
                     } else {
@@ -64,10 +64,11 @@ object Utils {
 
     /**
      * Parse one release tag attribute.
+     * @param context application context
      * @param xml the xml resource parser. Its cursor should be at a release tag.
      * @return a list containing one [ChangelogHeader] and zero or more [ChangelogItem]
      */
-    private fun parseReleaseTag(xml: XmlResourceParser): MutableList<ChangelogItem> {
+    private fun parseReleaseTag(context: Context?, xml: XmlResourceParser): MutableList<ChangelogItem> {
         require(xml.name == XmlTags.RELEASE && xml.eventType == XmlPullParser.START_TAG)
         val items = mutableListOf<ChangelogItem>()
         // parse header
@@ -81,11 +82,25 @@ object Utils {
         xml.next()
         // parse changes
         var tag: String? = null
+        var icon: String? = null
         while (xml.name in XmlTags.ItemType.tags() || xml.eventType == XmlPullParser.TEXT) {
-            if (xml.eventType == XmlPullParser.TEXT && tag != null) {
-                items.add(ChangelogItem(XmlTags.ItemType.type(tag), xml.text))
-            } else {
+            if (xml.eventType == XmlPullParser.START_TAG) {
                 tag = xml.name
+                if (tag.uppercase() == XmlTags.ItemType.CUSTOM.name) {
+                    icon = xml.getAttributeValue(null, "icon")
+                }
+            } else if (xml.eventType == XmlPullParser.TEXT) {
+                items.add(ChangelogItem(
+                    type = XmlTags.ItemType.type(tag!!),
+                    description = xml.text,
+                    icon = try {
+                        if (!icon.isNullOrBlank())
+                            context?.resources?.getIdentifier(icon.replace("R.drawable.", ""), "drawable", context.packageName)
+                        else null
+                    } catch (t: Throwable) {
+                        null
+                    }
+                ))
             }
             xml.next()
         }

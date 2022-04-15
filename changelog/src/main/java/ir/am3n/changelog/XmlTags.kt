@@ -15,7 +15,9 @@ object XmlTags {
         NEW,
         CHANGE,
         INFO,
-        FIX;
+        FIX,
+        CUSTOM,
+        TEXT;
 
         companion object {
             fun type(name: String): ItemType {

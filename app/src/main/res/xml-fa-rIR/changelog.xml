@@ -2,15 +2,15 @@
 <changelog>
 
     <release version="۱.۳.۰" versioncode="70" date="1401/1/20">
-        <change>بازطراحی صفحات</change>
+        <text>بازطراحی صفحات</text>
         <info>بهبود عملکرد</info>
-        <new>امکان جدید</new>
+        <custom>امکان جدید</custom>
         <fix>رفع مشکلات گزارش شده</fix>
     </release>
 
     <release version="۱.۲.۰" versioncode="61" summary="نمونه خلاصه" date="1400/11/2">
         <change>بازطراحی صفحات</change>
-        <info>بهبود عملکرد</info>
+        <custom icon="R.drawable.ic_tools">بهبود عملکرد</custom>
         <fix>رفع مشکلات گزارش شده</fix>
     </release>
 

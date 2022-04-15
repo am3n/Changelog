@@ -4,7 +4,10 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.core.view.*
 import androidx.recyclerview.widget.RecyclerView
+import ir.am3n.needtool.iDp2Px
 
 /** An adapter for [ChangelogItem] and [ChangelogHeader]. Nothing special, except that
  * it will create two types of holders, depending on the data type. */
@@ -57,10 +60,19 @@ class ChangelogAdapter(
             layoutDirection?.let { holder.imgDesc.direction = it }
 
             holder.imgDesc.setImageResource(when (item.type) {
-                XmlTags.ItemType.NEW -> R.drawable.alert_decagram_outline
-                XmlTags.ItemType.CHANGE -> R.drawable.tune_vertical_variant
-                XmlTags.ItemType.FIX -> R.drawable.ic_bug_check_outline
-                else -> R.drawable.information_outline
+                XmlTags.ItemType.NEW -> R.drawable.ic_changelog_item_new
+                XmlTags.ItemType.CHANGE -> R.drawable.ic_changelog_item_change
+                XmlTags.ItemType.FIX -> R.drawable.ic_changelog_item_fix
+                XmlTags.ItemType.INFO -> R.drawable.ic_changelog_item_info
+                XmlTags.ItemType.CUSTOM -> item.icon ?: R.drawable.ic_changelog_item_custom_default
+                XmlTags.ItemType.TEXT -> {
+                    holder.imgDesc.updateLayoutParams<LinearLayout.LayoutParams> {
+                        width = 0
+                        updateMarginsRelative(start = 6.iDp2Px)
+                    }
+                    0
+                }
+                else -> 0
             })
             holder.txtDesc.text = item.description
             holder.txtDesc.typeface = defaultFont
