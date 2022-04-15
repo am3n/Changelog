@@ -173,7 +173,7 @@ Customization
 
 ###
 
-- Can override the `new`, `change`, `info`, `fix` tag icon default colors.
+- Can override the `new`, `change`, `info`, `fix` & `custom` tag icon default colors.
   (e.g. `/res/values/`, `/res/values-night/`)
 
 ```xml
