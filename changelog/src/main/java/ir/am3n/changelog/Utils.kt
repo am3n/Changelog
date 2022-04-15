@@ -101,6 +101,8 @@ object Utils {
                         null
                     }
                 ))
+            } else if (xml.eventType == XmlPullParser.END_TAG) {
+                icon = null
             }
             xml.next()
         }
