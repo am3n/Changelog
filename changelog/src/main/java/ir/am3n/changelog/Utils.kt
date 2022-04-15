@@ -4,10 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.XmlResourceParser
 import android.os.Build
-import android.text.format.DateFormat
 import org.xmlpull.v1.XmlPullParser
-import java.sql.Date
-import java.text.ParseException
 
 object Utils {
 
@@ -48,9 +45,7 @@ object Utils {
             context?.resources?.getXml(resourceId!!)?.let { xml ->
                 while (xml.eventType != XmlPullParser.END_DOCUMENT) {
                     if (xml.eventType == XmlPullParser.START_TAG && xml.name == XmlTags.RELEASE) {
-                        val releaseVersion = Integer.parseInt(xml.getAttributeValue(null,
-                            XmlTags.VERSION_CODE
-                        ))
+                        val releaseVersion = Integer.parseInt(xml.getAttributeValue(null, XmlTags.VERSION_CODE))
                         if (releaseVersion <= lastVersionCode && version == -1)
                             break
                         changelogItems.addAll(parseReleaseTag(xml))
@@ -85,9 +80,12 @@ object Utils {
         )
         xml.next()
         // parse changes
-        while (xml.name == XmlTags.ITEM || xml.eventType == XmlPullParser.TEXT) {
-            if (xml.eventType == XmlPullParser.TEXT) {
-                items.add(ChangelogItem(xml.text))
+        var tag: String? = null
+        while (xml.name in XmlTags.ItemType.tags() || xml.eventType == XmlPullParser.TEXT) {
+            if (xml.eventType == XmlPullParser.TEXT && tag != null) {
+                items.add(ChangelogItem(XmlTags.ItemType.type(tag), xml.text))
+            } else {
+                tag = xml.name
             }
             xml.next()
         }

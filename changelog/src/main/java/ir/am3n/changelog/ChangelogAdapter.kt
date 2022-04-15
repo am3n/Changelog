@@ -56,6 +56,12 @@ class ChangelogAdapter(
 
             layoutDirection?.let { holder.imgDesc.direction = it }
 
+            holder.imgDesc.setImageResource(when (item.type) {
+                XmlTags.ItemType.NEW -> R.drawable.alert_decagram_outline
+                XmlTags.ItemType.CHANGE -> R.drawable.tune_vertical_variant
+                XmlTags.ItemType.FIX -> R.drawable.ic_bug_check_outline
+                else -> R.drawable.information_outline
+            })
             holder.txtDesc.text = item.description
             holder.txtDesc.typeface = defaultFont
         }

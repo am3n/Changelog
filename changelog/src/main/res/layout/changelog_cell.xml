@@ -16,8 +16,9 @@
         android:layout_height="24dp"
         android:layout_gravity="top"
         android:layout_marginRight="4dp"
-        app:srcCompat="@drawable/ic_circle_medium_24"
-        app:tint="?attr/colorAccent" />
+        android:padding="4dp"
+        app:tint="?attr/colorAccent"
+        tools:srcCompat="@drawable/ic_bug_check_outline" />
 
     <TextView
         android:id="@+id/textDesc"
