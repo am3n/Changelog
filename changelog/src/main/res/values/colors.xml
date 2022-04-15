@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="transparent">#0000</color>
+
+    <color name="colorChangelogItemNew">#5FBD1B</color>
+    <color name="colorChangelogItemChange">#761CC5</color>
+    <color name="colorChangelogItemInfo">#1B77BD</color>
+    <color name="colorChangelogItemFix">#BC2929</color>
+
 </resources>

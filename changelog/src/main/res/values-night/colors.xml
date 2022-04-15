@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorChangelogItemNew">#7FD641</color>
+    <color name="colorChangelogItemChange">#A249EF</color>
+    <color name="colorChangelogItemInfo">#4B96F1</color>
+    <color name="colorChangelogItemFix">#EC4D4D</color>
+
+</resources>
